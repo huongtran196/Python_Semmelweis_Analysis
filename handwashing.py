@@ -13,9 +13,23 @@ print(clinic_1)
 # Plot the yearly proportion deaths for both clinics
 ax = clinic_1.plot(x='year', y='proportion_deaths', label='Clinic 1')
 clinic_2.plot(x='year', y='proportion_deaths', label='Clinic 2', ax=ax, ylabel='Proportion deaths')
+plt.legend()
 plt.show()
 
 # Load monthly deaths dataset
 monthly = pd.read_csv('datesets/monthly_deaths.csv', parse_dates=['date'])
 monthly['proportion_deaths'] = monthly['deaths'] / monthly['births']
 print(monthly.head(1))
+
+# Plot the monthly proportion deaths of Clinic 1
+ax = monthly.plot(x='date', y='proportion_deaths', ylabel='Proportion deaths')
+plt.show()
+
+# Highlight the effect of handwashing
+handwashing_start = pd.to_datetime('1847-06-01') # date when handwashing was made mandatory
+before_washing = monthly[monthly['date'] < handwashing_start]
+after_washing = monthly[monthly['date'] >= handwashing_start]
+ax = before_washing.plot(x='date', y='proportion_deaths', label='Before washing')
+after_washing.plot(x='date', y='proportion_deaths', label='After washing', ax=ax, ylabel='Proportion deaths')
+plt.legend()
+plt.show()
