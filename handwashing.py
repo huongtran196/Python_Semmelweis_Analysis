@@ -37,3 +37,18 @@ plt.show()
 # Difference in mean monthly proportion of deaths due to handwashing
 mean_diff = after_washing['proportion_deaths'].mean() - before_washing['proportion_deaths'].mean()
 print(mean_diff)
+
+# A bootstrap analysis of the reduction of deaths due to handwashing
+before_proportion = before_washing['proportion_deaths']
+after_proportion = after_washing['proportion_deaths']
+
+boot_mean_diff = []
+for i in range(3000):
+    boot_before = before_proportion.sample(frac=1, replace=True)
+    boot_after = after_proportion.sample(frac=1, replace=True)
+    boot_mean_diff.append(boot_after.mean() - boot_before.mean())
+
+# Calculating a 95% confidence interval from boot_mean_diff 
+confidence_interval = pd.Series(boot_mean_diff).quantile([0.025, 0.975])
+print(confidence_interval)
+
