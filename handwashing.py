@@ -14,3 +14,8 @@ print(clinic_1)
 ax = clinic_1.plot(x='year', y='proportion_deaths', label='Clinic 1')
 clinic_2.plot(x='year', y='proportion_deaths', label='Clinic 2', ax=ax, ylabel='Proportion deaths')
 plt.show()
+
+# Load monthly deaths dataset
+monthly = pd.read_csv('datesets/monthly_deaths.csv', parse_dates=['date'])
+monthly['proportion_deaths'] = monthly['deaths'] / monthly['births']
+print(monthly.head(1))
